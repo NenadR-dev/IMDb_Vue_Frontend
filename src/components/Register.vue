@@ -1,6 +1,13 @@
 <template>
   <div class="register-form">
-    <b-form @submit.prevent='onSubmit'>
+    <div v-if="errorMessage.length > 0" :style="{color: 'red'}">
+      <ul v-for="ind in errorMessage.keys()" :key='ind[0]'>
+        <ul v-for="dat in errorMessage[ind]" :key='dat[0]'>
+          {{dat[0]}}
+        </ul>
+      </ul>
+    </div>
+    <b-form @submit.prevent="onSubmit">
       <b-form-group id="email-group" label="Email address" label-for="email">
         <b-form-input
           id="email"
@@ -8,7 +15,8 @@
           type="email"
           required
           placeholder="Enter email"
-          v-model="email"></b-form-input>
+          v-model="email"
+        ></b-form-input>
       </b-form-group>
       <b-form-group id="name-group" label="Name" label-for="name">
         <b-form-input
@@ -17,11 +25,14 @@
           type="text"
           required
           placeholder="Enter Fullname"
-          v-model="name"></b-form-input>
+          v-model="name"
+        ></b-form-input>
         <b-form-invalid-feedback :state="validateName">
           Your name must be between 5 and 50 characters long.
         </b-form-invalid-feedback>
-        <b-form-valid-feedback :state="validateName"> Looks Good. </b-form-valid-feedback>
+        <b-form-valid-feedback :state="validateName">
+          Looks Good.
+        </b-form-valid-feedback>
       </b-form-group>
       <b-form-group
         id="password-group"
@@ -34,11 +45,14 @@
         type="password"
         required
         placeholder="Enter password"
-        v-model="pwd"></b-form-input>
+        v-model="pwd"
+      ></b-form-input>
       <b-form-invalid-feedback :state="validatePwd">
         Your password must be at least 8 characters long.
       </b-form-invalid-feedback>
-      <b-form-valid-feedback :state="validatePwd"> Looks Good. </b-form-valid-feedback>
+      <b-form-valid-feedback :state="validatePwd">
+        Looks Good.
+      </b-form-valid-feedback>
       <b-form-group
         id="confirm-password-group"
         label="ConfirmPassword"
@@ -50,54 +64,63 @@
         type="password"
         required
         placeholder="Confirm Password"
-        v-model="confirmPwd"></b-form-input>
+        v-model="confirmPwd"
+      ></b-form-input>
       <b-form-invalid-feedback :state="validatePwdMatch">
         Passwords dont match.
       </b-form-invalid-feedback>
-      <b-form-valid-feedback :state="validatePwdMatch"> Looks Good. </b-form-valid-feedback>
-      <b-button type="submit" variant="primary" :disabled='!(validatePwd && validateName && validatePwdMatch)'>Register</b-button>
+      <b-form-valid-feedback :state="validatePwdMatch">
+        Looks Good.
+      </b-form-valid-feedback>
+      <b-button
+        type="submit"
+        variant="primary"
+        :disabled="!(validatePwd && validateName && validatePwdMatch)"
+        >Register</b-button
+      >
     </b-form>
   </div>
 </template>
 
 <script>
-import {Register} from '../services/AuthService.js'
+import { Register } from "../services/AuthService.js";
 export default {
   data() {
     return {
       email: "",
       name: "",
       pwd: "",
-      confirmPwd: ""
-    }
+      confirmPwd: "",
+      errorMessage: [],
+    };
   },
   computed: {
     validateName() {
-        return this.name.length > 5 && this.name.length < 50
+      return this.name.length > 5 && this.name.length < 50;
     },
     validatePwd() {
-        return this.pwd.length > 8 && this.pwd.length < 30
+      return this.pwd.length > 8 && this.pwd.length < 30;
     },
 
     validatePwdMatch() {
       return this.pwd === this.confirmPwd;
-    }
+    },
   },
-  methods:{
+  methods: {
     async onSubmit() {
-        await Register({
-                name: this.name,
-                email: this.email,
-                password: this.pwd
-            })
-    }
+      this.errorMessage = await Register({
+        name: this.name,
+        email: this.email,
+        password: this.pwd,
+      });
+    },
   },
 };
 </script>
 <style>
-.register-form{
-    margin: auto;
-    width: 50%;
-    padding-top: 80px;
+.register-form {
+  margin: auto;
+  width: 50%;
+  padding-top: 80px;
 }
 </style>

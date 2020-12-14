@@ -6,7 +6,6 @@
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
     <b-collapse id="nav-collapse" is-nav>
-      <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
           <b-nav-item href="/register">Register</b-nav-item>
           <b-nav-item href="/login">Login</b-nav-item>

@@ -35,17 +35,4 @@ const router = new VueRouter({
     mode: 'history',
     routes,
 });
-
-// router.beforeEach((to, from, next) => {
-//   if (to.meta.guest) {
-//     if (getToken()) {
-//       return next({ name: 'Home' })
-//     } else {
-//       return next();
-//     }
-//   } else {
-//     next();
-//   }
-// })
-
 export default router;
