@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {url} from './url.js'
+import { url } from './url.js'
 import router from '../router/router.js'
 
 const setToken = (token) => {
@@ -14,17 +14,20 @@ export const getToken = () => {
 }
 
 export const Register = (data) => {
-    axios.post(`${url}/user`, data)
+    return axios.post(`${url}/user`, data)
         .then(() => {
             router.push('/login')
+        })
+        .catch((err) => {
+            return [err.response.data.errors]
         })
 }
 
 export const Login = (data) => {
-    axios.post(`${url}/auth/login`,data)
+    axios.post(`${url}/auth/login`, data)
         .then(response => {
             setToken(response.data.access_token)
-            router.push({name: 'dashboard'})
+            router.push({ name: 'dashboard' })
         })
 }
 
@@ -36,6 +39,5 @@ export const Logout = () => {
     })
         .then(() => {
             deleteToken()
-            router.push({name: 'home'})
-        })
-}
+            router.push({ name: 'home' })
+        }
