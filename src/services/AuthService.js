@@ -29,6 +29,9 @@ export const Login = (data) => {
             setToken(response.data.access_token)
             router.push({ name: 'dashboard' })
         })
+        .catch(err => {
+            return [err.response.data.errors]
+        })
 }
 
 export const Logout = () => {
@@ -37,7 +40,11 @@ export const Logout = () => {
             'Authorization': `Bearer ${getToken()}`
         }
     })
-        .then(() => {
-            deleteToken()
-            router.push({ name: 'home' })
-        }
+    .then(() => {
+        deleteToken()
+        router.push({ name: 'home' })
+    })
+    .catch(err => {
+        return [err.response.data.errors]
+    })
+}

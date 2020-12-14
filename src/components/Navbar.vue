@@ -35,7 +35,7 @@ import { getToken, Logout } from "../services/AuthService.js";
 export default {
   data() {
     return {
-      isLoggedIn: false,
+      isLoggedIn: '',
     };
   },
   watch: {

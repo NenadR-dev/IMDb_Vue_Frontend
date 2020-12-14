@@ -1,9 +1,11 @@
 <template>
   <div class="register-form">
-    <div v-if="errorMessage.length > 0" :style="{color: 'red'}">
-      <ul v-for="ind in errorMessage.keys()" :key='ind[0]'>
-        <ul v-for="dat in errorMessage[ind]" :key='dat[0]'>
-          {{dat[0]}}
+    <div v-if="errorMessage.length > 0" :style="{ color: 'red' }">
+      <ul v-for="ind in errorMessage.keys()" :key="ind[0]">
+        <ul v-for="dat in errorMessage[ind]" :key="dat[0]">
+          {{
+            dat[0]
+          }}
         </ul>
       </ul>
     </div>
@@ -108,11 +110,15 @@ export default {
   },
   methods: {
     async onSubmit() {
-      this.errorMessage = await Register({
-        name: this.name,
-        email: this.email,
-        password: this.pwd,
-      });
+      try {
+        await Register({
+          name: this.name,
+          email: this.email,
+          password: this.pwd,
+        });
+      } catch (e) {
+        this.errorMessage = e;
+      }
     },
   },
 };
