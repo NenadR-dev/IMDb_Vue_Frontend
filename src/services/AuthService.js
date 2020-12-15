@@ -14,9 +14,12 @@ export const getToken = () => {
 }
 
 export const Register = (data) => {
-    axios.post(`${url}/user`, data)
+    return axios.post(`${url}/user`, data)
         .then(() => {
             router.push('/login')
+        })
+        .catch((err) => {
+            return [err.response.data.errors]
         })
 }
 
@@ -34,8 +37,8 @@ export const Logout = () => {
             'Authorization': `Bearer ${getToken()}`
         }
     })
-        .then(() => {
-            deleteToken()
-            router.push({name: 'home'})
-        })
+    .then(() => {
+        deleteToken()
+        router.push({name: 'home'})
+    })
 }
