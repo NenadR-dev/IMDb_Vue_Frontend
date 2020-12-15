@@ -33,7 +33,6 @@
 <script>
 import { Logout } from "../services/AuthService.js";
 export default {
-
   methods: {
     async logout() {
       Logout();
