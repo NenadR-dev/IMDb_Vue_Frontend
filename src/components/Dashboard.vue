@@ -6,12 +6,10 @@
         <b-card
           :title="movie.title"
           :img-src="movie.imageCover"
-          :style="{width: '450px'}"
           img-alt="Image"
           img-top
           tag="article"
-          style="max-width: 20rem"
-          class="mb-2"
+          class="mb-2 card-image"
         >
           <b-card-text>
             <p>
@@ -44,5 +42,9 @@ export default {
 <style>
 .card-distance {
   padding: 20px 60px;
+}
+.card-image{
+  width: 450px;
+  max-width: 20rem;
 }
 </style>
