@@ -1,11 +1,7 @@
 <template>
   <div :style="{ color: 'red' }">
-    <ul v-for="ind in errorMessages.keys()" :key="ind[0]">
-      <ul v-for="dat in errorMessages[ind]" :key="dat[0]">
-        {{
-          dat[0]
-        }}
-      </ul>
+    <ul v-for="error in errorMessages" :key="error.message">
+      {{error}}
     </ul>
   </div>
 </template>
