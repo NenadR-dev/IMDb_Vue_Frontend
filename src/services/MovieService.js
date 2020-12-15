@@ -10,3 +10,13 @@ export const getMovies = () => {
             return []
         })
 }
+
+export const getMovieByID = id => {
+    return axios.get(`${url}/movies/${id}`)
+        .then(response => {
+            return response.data
+        })
+        .catch((err) => {
+            throw [err.response.data.errors]
+        })
+}

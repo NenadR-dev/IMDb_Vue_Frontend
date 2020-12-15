@@ -27,7 +27,7 @@ export const Login = (data) => {
     axios.post(`${url}/auth/login`,data)
         .then(response => {
             setToken(response.data.access_token)
-            router.push({name: 'dashboard'})
+            router.push('/')
         })
 }
 

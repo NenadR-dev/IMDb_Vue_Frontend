@@ -1,48 +1,14 @@
 <template>
   <div>
-    <h1>Movies</h1>
-    <div class="row card-distance">
-      <div v-for="movie in movies" :key="movie.id" class="card-distance">
-        <b-card
-          :title="movie.title"
-          :img-src="movie.imageCover"
-          :style="{width: '450px'}"
-          img-alt="Image"
-          img-top
-          tag="article"
-          style="max-width: 20rem"
-          class="mb-2"
-        >
-          <b-card-text>
-            <p>
-              Description: <b>{{ movie.description }}</b>
-            </p>
-            <p>
-              Genre: <b>{{ movie.genre }}</b>
-            </p>
-          </b-card-text>
-        </b-card>
-      </div>
-    </div>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import { getMovies } from "../services/MovieService.js";
 export default {
-  data() {
-    return {
-      movies: [],
-    };
-  },
-  async created() {
-    this.movies = await getMovies();
-  },
+  
 };
 </script>
 
 <style>
-.card-distance {
-  padding: 20px 60px;
-}
 </style>
