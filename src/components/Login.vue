@@ -35,15 +35,20 @@ export default {
     data() {
         return {
             email: '',
-            pwd: ''
+            pwd: '',
+            errorMessage: ''
         }
     },
     methods: {
         async onSubmit(){
-            await Login({
+            try{
+              await Login({
                 email: this.email,
                 password: this.pwd
             });
+            } catch(e) {
+              this.errorMessage = e
+            }
         }
     }
 }
