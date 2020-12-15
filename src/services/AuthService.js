@@ -19,7 +19,7 @@ export const Register = (data) => {
             router.push('/login')
         })
         .catch((err) => {
-            return [err.response.data.errors]
+           throw [err.response.data.errors]
         })
 }
 
@@ -30,7 +30,7 @@ export const Login = (data) => {
             router.push({ name: 'dashboard' })
         })
         .catch(err => {
-            return [err.response.data.errors]
+            throw [err.response.data.errors]
         })
 }
 
@@ -45,6 +45,6 @@ export const Logout = () => {
         router.push({ name: 'home' })
     })
     .catch(err => {
-        return [err.response.data.errors]
+        throw [err.response.data.errors]
     })
 }
