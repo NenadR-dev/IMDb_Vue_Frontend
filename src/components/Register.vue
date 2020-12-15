@@ -1,12 +1,6 @@
 <template>
   <div class="register-form">
-    <div v-if="errorMessage.length > 0" :style="{color: 'red'}">
-      <ul v-for="ind in errorMessage.keys()" :key='ind[0]'>
-        <ul v-for="dat in errorMessage[ind]" :key='dat[0]'>
-          {{dat[0]}}
-        </ul>
-      </ul>
-    </div>
+    <show-error v-show="errorMessage.length > 0" :errorMessages="errorMessage"/>
     <b-form @submit.prevent="onSubmit">
       <b-form-group id="email-group" label="Email address" label-for="email">
         <b-form-input
@@ -84,7 +78,11 @@
 
 <script>
 import { Register } from "../services/AuthService.js";
+import Error from "./Error.vue";
 export default {
+  components:{
+    showError: Error
+  },
   data() {
     return {
       email: "",
@@ -108,11 +106,16 @@ export default {
   },
   methods: {
     async onSubmit() {
-      this.errorMessage = await Register({
-        name: this.name,
-        email: this.email,
-        password: this.pwd,
-      });
+      try {
+        await Register({
+          name: this.name,
+          email: this.email,
+          password: this.pwd,
+        });
+      } catch (e) {
+        console.log(e)
+        this.errorMessage = e;
+      }
     },
   },
 };
