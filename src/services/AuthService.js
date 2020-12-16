@@ -31,7 +31,7 @@ export const Login = (data) => {
             router.push('/')
         })
         .catch(err => {
-            throw [err.response.data.errors]
+            throw parseError(err.response.data.errors)
         })
 }
 
@@ -46,6 +46,6 @@ export const Logout = () => {
         router.push({ name: 'home' })
     })
     .catch(err => {
-        throw [err.response.data.errors]
+        throw parseError(err.response.data.errors)
     })
 }
