@@ -36,10 +36,9 @@ export default {
   methods: {
     async logout() {
       Logout();
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style>
-</style>
+<style></style>

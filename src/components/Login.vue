@@ -1,11 +1,7 @@
 <template>
   <div class="register-form">
     <b-form @submit.prevent="onSubmit">
-      <b-form-group
-        id="email-group"
-        label="Email address:"
-        label-for="email"
-      >
+      <b-form-group id="email-group" label="Email address:" label-for="email">
         <b-form-input
           id="email"
           v-model="email"
@@ -24,36 +20,34 @@
           placeholder="Enter password"
         ></b-form-input>
       </b-form-group>
-    <b-button type="submit" variant="primary">Login</b-button>
+      <b-button type="submit" variant="primary">Login</b-button>
     </b-form>
   </div>
 </template>
 
 <script>
-import {Login} from '../services/AuthService.js'
+import { Login } from "../services/AuthService.js";
 export default {
-    data() {
-        return {
-            email: '',
-            pwd: '',
-            errorMessage: ''
-        }
+  data() {
+    return {
+      email: "",
+      pwd: "",
+      errorMessage: "",
+    };
+  },
+  methods: {
+    async onSubmit() {
+      try {
+        await Login({
+          email: this.email,
+          password: this.pwd,
+        });
+      } catch (e) {
+        this.errorMessage = e;
+      }
     },
-    methods: {
-        async onSubmit(){
-            try{
-              await Login({
-                email: this.email,
-                password: this.pwd
-            });
-            } catch(e) {
-              this.errorMessage = e
-            }
-        }
-    }
-}
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

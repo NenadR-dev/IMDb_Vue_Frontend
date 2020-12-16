@@ -1,6 +1,6 @@
 <template>
   <div class="register-form">
-    <show-error v-show="errorMessage.length > 0" :errorMessages="errorMessage"/>
+    <show-error v-show="errorMessage.length > 0" :errorMessages="errorMessage" />
     <b-form @submit.prevent="onSubmit">
       <b-form-group id="email-group" label="Email address" label-for="email">
         <b-form-input
@@ -24,9 +24,7 @@
         <b-form-invalid-feedback :state="validateName">
           Your name must be between 5 and 50 characters long.
         </b-form-invalid-feedback>
-        <b-form-valid-feedback :state="validateName">
-          Looks Good.
-        </b-form-valid-feedback>
+        <b-form-valid-feedback :state="validateName"> Looks Good. </b-form-valid-feedback>
       </b-form-group>
       <b-form-group
         id="password-group"
@@ -44,9 +42,7 @@
       <b-form-invalid-feedback :state="validatePwd">
         Your password must be at least 8 characters long.
       </b-form-invalid-feedback>
-      <b-form-valid-feedback :state="validatePwd">
-        Looks Good.
-      </b-form-valid-feedback>
+      <b-form-valid-feedback :state="validatePwd"> Looks Good. </b-form-valid-feedback>
       <b-form-group
         id="confirm-password-group"
         label="ConfirmPassword"
@@ -80,8 +76,8 @@
 import { Register } from "../services/AuthService.js";
 import Error from "./Error.vue";
 export default {
-  components:{
-    showError: Error
+  components: {
+    showError: Error,
   },
   data() {
     return {

@@ -17,26 +17,32 @@
         img-src="https://picsum.photos/1024/480/?image=10"
       >
         <div class="center">
-          <h4>Get the latest info on your favorite movies. The ones you missed and the ones you plan on watching.</h4>
+          <h4>
+            Get the latest info on your favorite movies. The ones you missed and the ones
+            you plan on watching.
+          </h4>
         </div>
       </b-carousel-slide>
       <b-carousel-slide
         caption="About me"
         img-src="https://picsum.photos/1024/480/?image=12"
       >
-      <div class="center">
-      <h4>I love drinking beer and playing video games. The internship is going great. Im learing a lot of new things that will help me grow
-        into becoming an awesome web developer :)
-      </h4>
-      </div>
+        <div class="center">
+          <h4>
+            I love drinking beer and playing video games. The internship is going great.
+            Im learing a lot of new things that will help me grow into becoming an awesome
+            web developer :)
+          </h4>
+        </div>
       </b-carousel-slide>
       <b-carousel-slide
         caption="The future"
         img-src="https://picsum.photos/1024/480/?image=22"
       >
-      <div class="center">
-        <h4>And here we can see the future client</h4>
-        </div></b-carousel-slide>
+        <div class="center">
+          <h4>And here we can see the future client</h4>
+        </div></b-carousel-slide
+      >
     </b-carousel>
   </div>
 </template>
@@ -46,7 +52,7 @@ export default {};
 </script>
 
 <style scoped>
-.center{
+.center {
   justify-self: center;
   padding-bottom: 300px;
 }
