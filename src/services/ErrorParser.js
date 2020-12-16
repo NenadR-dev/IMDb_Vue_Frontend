@@ -3,6 +3,5 @@ export const parseError = (error) => {
     for(var ind in error) {
         parsedErrors.push(...error[ind])
     }
-    console.log(parsedErrors)
     return parsedErrors;
 } 

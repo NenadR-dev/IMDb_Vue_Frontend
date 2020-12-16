@@ -6,8 +6,8 @@ export const getMovies = () => {
         .then(response => {
             return response.data
         })
-        .catch(() => {
-            return []
+        .catch((e) => {
+            throw parseError(e.response.data.errors)
         })
 }
 
@@ -17,7 +17,7 @@ export const getMovieByID = id => {
             return response.data
         })
         .catch((err) => {
-            throw [err.response.data.errors]
+            throw parseError(err.response.data.errors)
         })
 }
 

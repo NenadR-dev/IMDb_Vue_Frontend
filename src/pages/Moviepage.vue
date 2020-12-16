@@ -34,7 +34,7 @@ export default {
     try {
       this.movie = await getMovieByID(this.$route.params.id);
     } catch (e) {
-      console.log(e);
+      this.$router.push('/')
     }
   },
 };
