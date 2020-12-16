@@ -19,12 +19,10 @@
         <b-card
           :title="movie.title"
           :img-src="movie.imageCover"
-          :style="{ width: '450px' }"
           img-alt="Image"
           img-top
           tag="article"
-          style="max-width: 20rem"
-          class="mb-2"
+          class="mb-2 movie-card-item"
           @click="navigateToImage(movie.id)"
         >
           <b-card-text>
@@ -70,16 +68,15 @@ export default {
 }
 
 .movie-card {
-  padding: 20px 60px;
-  transition: transform 0.2s;
+    padding: 20px 60px;
 }
-.movie-card:hover {
-  transform: scale(1.1);
-  cursor: pointer;
+.movie-card-item {
+  transition: transform .2s;
+  max-width: 20rem;
+  width: 450px;
 }
-.center {
-  align-content: center;
-  align-items: center;
-  justify-content: center;
+.movie-card-item:hover{
+    transform: scale(1.1);
+    cursor: pointer;
 }
 </style>
