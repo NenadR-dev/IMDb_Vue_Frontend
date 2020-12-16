@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!isLoggedIn">
+    <div v-if="$route.meta.guest">
       <b-navbar toggleable="lg" type="dark" variant="info">
         <b-navbar-brand href="/">IMDb</b-navbar-brand>
 
@@ -31,22 +31,11 @@
 </template>
 
 <script>
-import { getToken, Logout } from "../services/AuthService.js";
+import { Logout } from "../services/AuthService.js";
 export default {
-  data() {
-    return {
-      isLoggedIn: '',
-    };
-  },
-  watch: {
-    $route: "loggedIn",
-  },
   methods: {
     async logout() {
       Logout();
-    },
-    loggedIn(){
-        this.isLoggedIn = getToken()
     }
   }
 };

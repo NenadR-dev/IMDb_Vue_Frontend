@@ -113,7 +113,6 @@ export default {
           password: this.pwd,
         });
       } catch (e) {
-        console.log(e)
         this.errorMessage = e;
       }
     },

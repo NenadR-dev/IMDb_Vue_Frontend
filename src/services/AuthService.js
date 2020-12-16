@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { url } from './url.js'
 import router from '../router/router.js'
+import {parseError} from './ErrorParser.js'
 
 const setToken = (token) => {
     window.localStorage.setItem('jwtToken', token)
@@ -19,7 +20,7 @@ export const Register = (data) => {
             router.push('/login')
         })
         .catch((err) => {
-           throw [err.response.data.errors]
+           throw parseError(err.response.data.errors)
         })
 }
 
@@ -27,10 +28,10 @@ export const Login = (data) => {
     axios.post(`${url}/auth/login`, data)
         .then(response => {
             setToken(response.data.access_token)
-            router.push({ name: 'dashboard' })
+            router.push('/')
         })
         .catch(err => {
-            throw [err.response.data.errors]
+            throw parseError(err.response.data.errors)
         })
 }
 
@@ -45,6 +46,6 @@ export const Logout = () => {
         router.push({ name: 'home' })
     })
     .catch(err => {
-        throw [err.response.data.errors]
+        throw parseError(err.response.data.errors)
     })
 }

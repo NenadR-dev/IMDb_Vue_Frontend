@@ -4,7 +4,10 @@ import Home from '../components/Home.vue'
 import Login from '../components/Login.vue'
 import Register from '../components/Register.vue'
 import Dashboard from '../components/Dashboard.vue'
+import Moviepage from '../pages/Moviepage.vue'
+import Movielist from '../pages/Movielist.vue'
 import { getToken } from '../services/AuthService.js'
+
 const routes = [
     {
         path: "/",
@@ -16,11 +19,22 @@ const routes = [
     },
     {
         path: "/",
-        name: 'dashboard',
         component: Dashboard,
         meta: {
             guest: false
-        }
+        },
+        children: [
+            {
+                path: '',
+                name: 'movielist',
+                component: Movielist
+            },
+            {
+                path: 'movie/:id',
+                name: 'moviePage',
+                component: Moviepage
+            }
+        ]
     },
     {
         path: "/Login",
@@ -46,9 +60,9 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    if(to.meta.guest) {
-        if(getToken()) {
-            return next({name: 'dashboard'})
+    if (to.meta.guest) {
+        if (getToken()) {
+            return next({name: 'movielist'})
         } else {
             return next()
         }
