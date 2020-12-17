@@ -6,6 +6,7 @@ import Register from '../components/Register.vue'
 import Dashboard from '../components/Dashboard.vue'
 import Moviepage from '../pages/Moviepage.vue'
 import Movielist from '../pages/Movielist.vue'
+import Movieadd from '../pages/Movieadd.vue'
 import { getToken } from '../services/AuthService.js'
 
 const routes = [
@@ -33,6 +34,11 @@ const routes = [
                 path: 'movie/:id',
                 name: 'moviePage',
                 component: Moviepage
+            },
+            {
+                path: 'add',
+                name: 'addMoviePage',
+                component: Movieadd
             }
         ]
     },

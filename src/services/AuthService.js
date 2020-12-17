@@ -14,6 +14,12 @@ export const getToken = () => {
     return window.localStorage.getItem('jwtToken')
 }
 
+export const config = {
+    headers: {
+        'Authorization' : `Bearer ${getToken()}`
+    }
+}
+
 export const Register = (data) => {
     return axios.post(`${url}/user`, data)
         .then(() => {
@@ -36,11 +42,7 @@ export const Login = (data) => {
 }
 
 export const Logout = () => {
-    axios.post(`${url}/auth/logout`, null, {
-        headers: {
-            'Authorization': `Bearer ${getToken()}`
-        }
-    })
+    axios.post(`${url}/auth/logout`, null, config)
     .then(() => {
         deleteToken()
         router.push({ name: 'home' })
