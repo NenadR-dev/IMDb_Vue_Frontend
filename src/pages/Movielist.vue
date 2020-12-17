@@ -8,7 +8,6 @@
         v-model="currentPage"
         :total-rows="movies.total"
         :per-page="movies.per_page"
-        aria-controls="my-table"
         pills
         size="lg"
         @input="fetchNextPage"
@@ -34,6 +33,8 @@
             </p>
           </b-card-text>
         </b-card>
+        <b-card-footer>
+          <like-dislike :movieId='movie.id'></like-dislike></b-card-footer>
       </div>
     </div>
   </div>
@@ -41,11 +42,15 @@
 
 <script>
 import { getMovies, getNextMoviePage } from "../services/MovieService.js";
+import LikeDislike from "../components/LikeDislike.vue";
 export default {
+  components: {
+    LikeDislike,
+  },
   data() {
     return {
       currentPage: 1,
-      movies: []
+      movies: [],
     };
   },
   async created() {
@@ -57,7 +62,7 @@ export default {
     },
     async fetchNextPage() {
       this.movies = await getNextMoviePage(this.movies.links[this.currentPage].url);
-    },
+    }
   },
 };
 </script>
@@ -68,15 +73,18 @@ export default {
 }
 
 .movie-card {
-    padding: 20px 60px;
+  padding: 20px 60px;
 }
 .movie-card-item {
-  transition: transform .2s;
+  transition: transform 0.2s;
   max-width: 20rem;
   width: 450px;
 }
-.movie-card-item:hover{
-    transform: scale(1.1);
-    cursor: pointer;
+.movie-card-item:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+.center {
+  justify-content: center;
 }
 </style>

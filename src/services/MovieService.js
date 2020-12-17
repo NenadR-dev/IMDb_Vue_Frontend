@@ -51,3 +51,30 @@ export const addMovie = (data) => {
             throw parseError(err.response.data.errors)
         })
 }
+
+export const likeMovie = (data) => {
+    return axios.post(`${url}/likeMovie`,data,{
+        headers:{
+            Authorization: `Bearer ${getToken()}`
+        }
+    })
+    .then(response => {
+        console.log(response)
+    })
+    .catch(err => {
+        console.log(err)
+    })
+}
+export const removeLike = (data) => {
+    return axios.put(`${url}/likeMovie/${data.movieId}`,data,{
+        headers:{
+            Authorization: `Bearer ${getToken()}`
+        }
+    })
+    .then(response => {
+        console.log(response)
+    })
+    .catch(err => {
+        console.log(err)
+    })
+}
