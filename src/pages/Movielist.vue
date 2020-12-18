@@ -31,7 +31,6 @@
             <p>
               Genre: <b>{{ movie.genre }}</b>
             </p>
-            <p>Visited: <b>{{movie.visited}} times.</b></p>
           </b-card-text>
         </b-card>
         <b-card-footer>
@@ -39,8 +38,8 @@
             :movieId="movie.id"
             :movieLikeCount="movie.likes"
             :userPreference="userPreference"
-          ></like-dislike>
-        </b-card-footer>
+          ></like-dislike
+        ></b-card-footer>
       </div>
     </div>
   </div>
@@ -50,7 +49,7 @@
 import {
   getMovies,
   getMyMovieLikes,
-  getNextMoviePage,
+  getNextMoviePage
 } from "../services/MovieService.js";
 import LikeDislike from "../components/LikeDislike.vue";
 export default {
@@ -74,7 +73,7 @@ export default {
     },
     async fetchNextPage() {
       this.movies = await getNextMoviePage(this.movies.links[this.currentPage].url);
-    },
+    }
   },
 };
 </script>
