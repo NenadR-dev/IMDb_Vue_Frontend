@@ -28,7 +28,11 @@
             max-rows="6"
             v-model="movie.description"
           ></b-form-textarea>
-          <b-form-group id="genre-group" label="Genre" label-for="Genre"></b-form-group>
+          <b-form-group
+            id="genre-group"
+            label="Genre"
+            label-for="Genre"
+          ></b-form-group>
           <b-form-select
             id="genre"
             name="genre"
@@ -37,7 +41,11 @@
             required
             v-model="movie.genre"
           ></b-form-select>
-          <b-form-group id="image-group" label="Image" label-for="image"></b-form-group>
+          <b-form-group
+            id="image-group"
+            label="Image"
+            label-for="image"
+          ></b-form-group>
           <b-form-file
             id="image"
             name="image"
@@ -49,9 +57,16 @@
           ></b-form-file>
         </b-card-body>
         <b-row
-          ><b-button class="btn-padding" type="submit" variant="primary">Add Movie </b-button>
-          <show-error v-show="errorMessage.length > 0" :errorMessages="errorMessage" />
-          <h4 class="feedback-text" :v-show="feedback">{{ feedback }}</h4></b-row
+          ><b-button class="btn-padding" type="submit" variant="primary"
+            >Add Movie
+          </b-button>
+          <show-error
+            v-show="errorMessage.length > 0"
+            :errorMessages="errorMessage"
+          />
+          <h4 class="feedback-text" :v-show="feedback">
+            {{ feedback }}
+          </h4></b-row
         >
       </b-form>
     </b-card>
@@ -60,7 +75,7 @@
 
 <script>
 import Error from "../components/Error.vue";
-import { addMovie } from "../services/MovieService.js";
+import { addMovie, genres } from "../services/MovieService.js";
 export default {
   components: {
     showError: Error,
@@ -73,15 +88,8 @@ export default {
         genre: "",
         imageCover: null,
       },
-      genres: [
-        { value: "Action", text: "Action" },
-        { value: "Adventure", text: "Adventure" },
-        { value: "Drama", text: "Drama" },
-        { value: "Thriller", text: "Thriller" },
-        { value: "Mistery", text: "Mistery" },
-        { value: "Horror", text: "Horror" },
-        { value: "Sci-fi", text: "Sci-fi" },
-      ],
+      genres,
+      
       errorMessage: [],
       feedback: "",
     };
@@ -117,10 +125,10 @@ export default {
 .image-card {
   max-width: 40rem;
 }
-.btn-padding{
+.btn-padding {
   margin-left: 35px;
 }
-.feedback-text{
+.feedback-text {
   padding-left: 140px;
 }
 </style>
