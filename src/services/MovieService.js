@@ -60,11 +60,7 @@ export const addMovie = (data) => {
 }
 
 export const likeMovie = (data) => {
-    return axios.post(`${url}/likeMovie`,data,{
-        headers:{
-            Authorization: `Bearer ${getToken()}`
-        }
-    })
+    return axios.post(`${url}/likeMovie`,data,config)
     .then(response => {
         return response.data
     })
@@ -73,11 +69,7 @@ export const likeMovie = (data) => {
     })
 }
 export const removeLike = (data) => {
-    return axios.put(`${url}/likeMovie/${data.movieId}`,data,{
-        headers:{
-            Authorization: `Bearer ${getToken()}`
-        }
-    })
+    return axios.put(`${url}/likeMovie/${data.movieId}`,data,config)
     .then(response => {
         console.log(response)
     })
