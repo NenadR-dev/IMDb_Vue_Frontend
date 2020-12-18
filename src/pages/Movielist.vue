@@ -31,6 +31,7 @@
             <p>
               Genre: <b>{{ movie.genre }}</b>
             </p>
+            <p>Visited: <b>{{movie.visited}}</b> times.</p>
           </b-card-text>
         </b-card>
         <b-card-footer>
