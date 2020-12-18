@@ -5,7 +5,7 @@
         icon="emoji-smile-fill"
         class="hover-icon"
         :variant="liked ? 'success' : 'secondary'"
-        @click="toggleLike"
+        @click="toggleLike('liked')"
       ></b-icon>
       <span> {{ numOfLikes }}</span></b-col
     >
@@ -15,7 +15,7 @@
           icon="emoji-expressionless-fill"
           class="hover-icon"
           :variant="disliked ? 'danger' : 'secondary'"
-          @click="toggleDislike"
+          @click="toggleLike('disliked')"
         ></b-icon
         >{{ numOfDislikes }}</span
       ></b-col
@@ -38,40 +38,20 @@ export default {
     };
   },
   methods: {
-    async toggleLike() {
-      var response = "";
-      if (this.liked && !this.disliked) {
-        this.liked = false;
-        response = await removeLike({
-          movieId: this.$props.movieId
-        });
-      } else {
-        this.liked = true;
-        this.disliked = false;
-
-        response = await likeMovie({
-          movieId: this.$props.movieId,
-          liked: this.liked,
-        });
-      }
-      console.log(response);
-    },
-    async toggleDislike() {
-      if (!this.liked && this.disliked) {
-        this.disliked = false;
-        response = await removeLike({
-          movieId: this.$props.movieId
-        });
-      } else {
-        this.liked = false;
-        this.disliked = true;
-        var response = await likeMovie({
-          movieId: this.$props.movieId,
-          liked: this.liked,
-        });
-      }
-
-      console.log(response);
+    async toggleLike(like) {
+      var result;
+      if((like === 'liked' && this.liked) || (like ==='disliked' && this.disliked)){
+        result = await removeLike({
+          movieId: this.movieId
+        })
+        return;
+      } 
+      var isLiked = like ==='liked';
+      result = await likeMovie({
+        movieId: this.movieId,
+        liked: isLiked
+      })
+      console.log(result);
     },
   },
 };
