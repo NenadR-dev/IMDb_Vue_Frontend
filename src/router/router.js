@@ -26,7 +26,7 @@ const routes = [
         },
         children: [
             {
-                path: '',
+                path: 'movielist',
                 name: 'movielist',
                 component: Movielist
             },

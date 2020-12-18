@@ -36,6 +36,16 @@ export const getMovies = () => {
         })
 }
 
+export const filterMovies = (filter) => {
+    return axios.get(`${url}/movies/?filter=${filter}`)
+    .then(response => {
+        return response.data
+    })
+    .catch((e) => {
+        throw parseError(e.response.data.errors)
+    })
+}
+
 export const getMovieByID = id => {
     return axios.get(`${url}/movies/${id}`)
         .then(response => {
