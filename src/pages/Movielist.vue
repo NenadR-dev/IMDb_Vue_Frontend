@@ -34,14 +34,23 @@
           </b-card-text>
         </b-card>
         <b-card-footer>
-          <like-dislike :movieId='movie.id'></like-dislike></b-card-footer>
+          <like-dislike
+            :movieId="movie.id"
+            :movieLikeCount="movie.likes"
+            :userPreference="userPreference"
+          ></like-dislike
+        ></b-card-footer>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { getMovies, getNextMoviePage } from "../services/MovieService.js";
+import {
+  getMovies,
+  getMyMovieLikes,
+  getNextMoviePage
+} from "../services/MovieService.js";
 import LikeDislike from "../components/LikeDislike.vue";
 export default {
   components: {
@@ -51,9 +60,11 @@ export default {
     return {
       currentPage: 1,
       movies: [],
+      userPreference: [],
     };
   },
   async created() {
+    this.userPreference = await getMyMovieLikes();
     this.movies = await getMovies();
   },
   methods: {

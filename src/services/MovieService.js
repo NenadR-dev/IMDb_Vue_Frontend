@@ -13,6 +13,19 @@ export const genres = [
     { value: "Sci-fi", text: "Sci-fi" },
 ]
 
+export const calculateMovieLikes = (data) => {
+    let likes = 0
+    let dislikes = 0
+    data.forEach(like => {
+        if (like.liked === 1) {
+            likes += 1
+        } else {
+            dislikes += 1
+        }
+    })
+    return [likes, dislikes]
+}
+
 export const getMovies = () => {
     return axios.get(`${url}/movies`)
         .then(response => {
@@ -60,20 +73,30 @@ export const addMovie = (data) => {
 }
 
 export const likeMovie = (data) => {
-    return axios.post(`${url}/likeMovie`,data,config)
-    .then(response => {
-        return response.data
-    })
-    .catch(err => {
-        console.log(err)
-    })
+    return axios.post(`${url}/auth/likeMovie`, data, config)
+        .then(response => {
+            return response.data
+        })
+        .catch(err => {
+            throw parseError(err.response.data.errors)
+        })
 }
 export const removeLike = (data) => {
-    return axios.put(`${url}/likeMovie/${data.movieId}`,data,config)
-    .then(response => {
-        console.log(response)
-    })
-    .catch(err => {
-        console.log(err)
-    })
+    return axios.delete(`${url}/auth/likeMovie/${data.movieId}`, config)
+        .then(response => {
+            return response.data
+        })
+        .catch(err => {
+            throw parseError(err.response.data.errors)
+        })
+}
+
+export const getMyMovieLikes = () => {
+    return axios.get(`${url}/auth/likeMovie`, config)
+        .then(response => {
+            return response.data
+        })
+        .catch(err => {
+            throw parseError(err.response.data.errors)
+        })
 }

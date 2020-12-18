@@ -24,34 +24,62 @@
 </template>
 
 <script>
-import { likeMovie, removeLike } from "../services/MovieService.js";
+import { calculateMovieLikes, likeMovie, removeLike } from "../services/MovieService.js";
 export default {
   props: {
     movieId: Number,
+    userPreference: Array,
+    movieLikeCount : Array
   },
   data() {
     return {
       liked: false,
       disliked: false,
-      numOfLikes: 12,
-      numOfDislikes: 4,
+      numOfLikes: 0,
+      numOfDislikes: 0,
     };
+  },
+  created() {
+    [this.numOfLikes, this.numOfDislikes] = calculateMovieLikes(this.$props.movieLikeCount)
+    let movie = this.userPreference.find(x=> x.movie_id === this.movieId);
+    if(movie !== undefined) {
+      if(movie.liked === 1) {
+        this.liked = true
+      } else {
+        this.disliked = true
+      }
+    }
   },
   methods: {
     async toggleLike(like) {
-      var result;
       if((like === 'liked' && this.liked) || (like ==='disliked' && this.disliked)){
-        result = await removeLike({
+        let result = await removeLike({
           movieId: this.movieId
-        })
-        return;
+        });
+        if(this.disliked) {
+          this.numOfDislikes -=1
+        } else {
+          this.numOfLikes -=1
+        }
+        this.disliked = false
+        this.liked = false
+        console.log(result)
+        return
       } 
       var isLiked = like ==='liked';
-      result = await likeMovie({
+      let result = await likeMovie({
         movieId: this.movieId,
         liked: isLiked
       })
-      console.log(result);
+      if(result.pivot.liked === 1) {
+        this.liked = true
+        this.disliked = false
+        this.numOfLikes +=1
+      } else {
+        this.disliked = true
+        this.liked = false
+        this.numOfDislikes +=1
+      }
     },
   },
 };
