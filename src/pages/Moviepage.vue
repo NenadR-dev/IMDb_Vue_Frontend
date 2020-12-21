@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { getMovieByID, postUserComment } from "../services/MovieService.js";
+import MovieService from "../services/MovieService.js";
 import Error from "../components/Error.vue";
 import Comment from "../components/Comment.vue";
 export default {
@@ -62,7 +62,7 @@ export default {
   },
   async created() {
     try {
-      this.movie = await getMovieByID(this.$route.params.id);
+      this.movie = await MovieService.getMovieByID(this.$route.params.id);
     } catch (e) {
       this.errorMessage = e;
     }
@@ -70,7 +70,7 @@ export default {
   methods: {
     async postComment() {
       try {
-        var newComment = await postUserComment({
+        var newComment = await MovieService.postUserComment({
           comment: this.commentText,
           movieId: this.movie.id,
         });
