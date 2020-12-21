@@ -34,7 +34,7 @@ export const Login = (data) => {
     axios.post(`${url}/auth/login`, data)
         .then(response => {
             setToken(response.data.access_token)
-            router.push('/')
+            router.push('/movielist')
         })
         .catch(err => {
             throw parseError(err.response.data.errors)

@@ -13,6 +13,14 @@
         @input="fetchNextPage"
       ></b-pagination>
     </b-row>
+    <b-row class="center mb-3">
+      <b-form-select @change="filterMovies" v-model="filter" :options="genres" size="md">
+      <template #first>
+        <b-form-select-option :value="null" disabled>-- Please select an option --</b-form-select-option>
+      </template>
+        <b-form-select-option value="all"> All </b-form-select-option>
+      </b-form-select>
+    </b-row>
     <div id="content" class="row card-distance">
       <div v-for="movie in movies.data" :key="movie.id" class="movie-card">
         <b-card
@@ -46,7 +54,13 @@
 </template>
 
 <script>
-import { getMovies, getNextMoviePage } from "../services/MovieService.js";
+import {
+  getMovies,
+  getMyMovieLikes,
+  getNextMoviePage,
+  genres,
+  filterMovies,
+} from "../services/MovieService.js";
 import LikeDislike from "../components/LikeDislike.vue";
 export default {
   components: {
@@ -56,6 +70,9 @@ export default {
     return {
       currentPage: 1,
       movies: [],
+      userPreference: [],
+      filter: null,
+      genres,
     };
   },
   async created() {
@@ -71,6 +88,9 @@ export default {
     async updateMovieLike() {
     this.movies = await getMovies();
     },
+    async filterMovies() {
+      this.movies = await filterMovies(this.filter, 'genre');
+    }
   },
 };
 </script>
