@@ -13,6 +13,14 @@
         @input="fetchNextPage"
       ></b-pagination>
     </b-row>
+    <b-row class="center mb-3">
+      <b-form-select @change="filterMovies" v-model="filter" :options="genres" size="md">
+      <template #first>
+        <b-form-select-option :value="null" disabled>-- Please select an option --</b-form-select-option>
+      </template>
+        <b-form-select-option value="all"> All </b-form-select-option>
+      </b-form-select>
+    </b-row>
     <div id="content" class="row card-distance">
       <div v-for="movie in movies.data" :key="movie.id" class="movie-card">
         <b-card
@@ -31,17 +39,31 @@
             <p>
               Genre: <b>{{ movie.genre }}</b>
             </p>
+            <p>
+              Visited: <b>{{ movie.visited }}</b> times.
+            </p>
           </b-card-text>
         </b-card>
         <b-card-footer>
-          <like-dislike :movieId='movie.id'></like-dislike></b-card-footer>
+          <like-dislike
+            :movieId="movie.id"
+            :movieLikeCount="movie.likes"
+            :userPreference="userPreference"
+          ></like-dislike
+        ></b-card-footer>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { getMovies, getNextMoviePage } from "../services/MovieService.js";
+import {
+  getMovies,
+  getMyMovieLikes,
+  getNextMoviePage,
+  genres,
+  filterMovies,
+} from "../services/MovieService.js";
 import LikeDislike from "../components/LikeDislike.vue";
 export default {
   components: {
@@ -51,9 +73,13 @@ export default {
     return {
       currentPage: 1,
       movies: [],
+      userPreference: [],
+      filter: null,
+      genres,
     };
   },
   async created() {
+    this.userPreference = await getMyMovieLikes();
     this.movies = await getMovies();
   },
   methods: {
@@ -62,6 +88,9 @@ export default {
     },
     async fetchNextPage() {
       this.movies = await getNextMoviePage(this.movies.links[this.currentPage].url);
+    },
+    async filterMovies() {
+      this.movies = await filterMovies(this.filter, 'genre');
     }
   },
 };
