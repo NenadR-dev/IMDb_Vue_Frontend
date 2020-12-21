@@ -38,12 +38,12 @@ export const getMovies = () => {
 
 export const filterMovies = (filter) => {
     return axios.get(`${url}/movies/?filter=${filter}`)
-    .then(response => {
-        return response.data
-    })
-    .catch((e) => {
-        throw parseError(e.response.data.errors)
-    })
+        .then(response => {
+            return response.data
+        })
+        .catch((e) => {
+            throw parseError(e.response.data.errors)
+        })
 }
 
 export const getMovieByID = id => {
@@ -108,5 +108,15 @@ export const getMyMovieLikes = () => {
         })
         .catch(err => {
             throw parseError(err.response.data.errors)
+        })
+}
+
+export const postUserComment = (data) => {
+    return axios.post(`${url}/auth/commentMovie`,data,config)
+        .then(response => {
+            return response.data
+        })
+        .catch(err => {
+            return parseError(err.response.data.errors)
         })
 }
