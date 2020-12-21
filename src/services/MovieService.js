@@ -17,11 +17,7 @@ export const calculateMovieLikes = (data) => {
     let likes = 0
     let dislikes = 0
     data.forEach(like => {
-        if (like.liked === 1) {
-            likes += 1
-        } else {
-            dislikes += 1
-        }
+        like.liked === 1 ? likes +=1 : dislikes += 1;
     })
     return [likes, dislikes]
 }
