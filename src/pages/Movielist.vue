@@ -90,7 +90,7 @@ export default {
       this.movies = await getNextMoviePage(this.movies.links[this.currentPage].url);
     },
     async filterMovies() {
-      this.movies = await filterMovies(this.filter);
+      this.movies = await filterMovies(this.filter, 'genre');
     }
   },
 };

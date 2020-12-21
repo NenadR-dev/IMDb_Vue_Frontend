@@ -36,8 +36,8 @@ export const getMovies = () => {
         })
 }
 
-export const filterMovies = (filter) => {
-    return axios.get(`${url}/movies/?filter=${filter}`)
+export const filterMovies = (filter,filterBy) => {
+    return axios.get(`${url}/movies/?filter=${filter}&filterBy=${filterBy}`)
     .then(response => {
         return response.data
     })
