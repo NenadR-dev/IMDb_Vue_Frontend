@@ -1,5 +1,7 @@
 <template>
   <b-row>
+    <h1>
+    <show-error v-show="errorMessage.length > 0" :errorMessages="errorMessage" /></h1>
     <b-col class="like"
       ><b-icon
         icon="emoji-smile-fill"
@@ -25,11 +27,15 @@
 
 <script>
 import { calculateMovieLikes, likeMovie, removeLike } from "../services/MovieService.js";
+import Error from './Error.vue'
 export default {
+  components: {
+    showError: Error
+  },
   props: {
     movieId: Number,
-    userPreference: Array,
-    movieLikeCount : Array
+    movieStatus: Array,
+    updateMovie: Function,
   },
   data() {
     return {
@@ -37,48 +43,51 @@ export default {
       disliked: false,
       numOfLikes: 0,
       numOfDislikes: 0,
+      errorMessage: []
     };
   },
   created() {
-    [this.numOfLikes, this.numOfDislikes] = calculateMovieLikes(this.$props.movieLikeCount)
-    let movie = this.userPreference.find(x=> x.movie_id === this.movieId);
-    if(movie !== undefined) {
-      if(movie.liked === 1) {
-        this.liked = true
+    [this.numOfLikes, this.numOfDislikes] = calculateMovieLikes(this.$props.movieStatus);
+    let movie = this.movieStatus.find((x) => x.movie_id === this.movieId);
+    if (movie !== undefined) {
+      if (movie.liked === 1) {
+        this.liked = true;
       } else {
-        this.disliked = true
+        this.disliked = true;
       }
     }
   },
+  watch: {
+    movieStatus() {
+      [this.numOfLikes, this.numOfDislikes] = calculateMovieLikes(
+        this.$props.movieStatus
+      );
+    },
+  },
   methods: {
     async toggleLike(like) {
-      if((like === 'liked' && this.liked) || (like ==='disliked' && this.disliked)){
-        let result = await removeLike({
-          movieId: this.movieId
+      if ((like === "liked" && this.liked) || (like === "disliked" && this.disliked)) {
+        await removeLike({
+          movieId: this.movieId,
         });
-        if(this.disliked) {
-          this.numOfDislikes -=1
-        } else {
-          this.numOfLikes -=1
-        }
-        this.disliked = false
-        this.liked = false
-        console.log(result)
-        return
-      } 
-      var isLiked = like ==='liked';
-      let result = await likeMovie({
-        movieId: this.movieId,
-        liked: isLiked
-      })
-      if(result.pivot.liked === 1) {
-        this.liked = true
-        this.disliked = false
-        this.numOfLikes +=1
-      } else {
-        this.disliked = true
-        this.liked = false
-        this.numOfDislikes +=1
+        this.liked = false;
+        this.disliked = false;
+        this.$props.updateMovie();
+        return;
+      }
+      try {
+        this.liked = like === "liked";
+        this.disliked = !this.liked;
+        var result = await likeMovie({
+          liked: this.liked,
+          disliked: this.disliked,
+          movieId: this.movieId,
+        });
+        this.liked = Boolean(result.pivot.liked);
+        this.disliked = Boolean(result.pivot.disliked);
+        this.$props.updateMovie();
+      } catch (e) {
+        this.errorMessage = e
       }
     },
   },

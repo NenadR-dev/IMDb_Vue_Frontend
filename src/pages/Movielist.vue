@@ -36,8 +36,8 @@
         <b-card-footer>
           <like-dislike
             :movieId="movie.id"
-            :movieLikeCount="movie.likes"
-            :userPreference="userPreference"
+            :movieStatus="movie.likes"
+            :updateMovie="updateMovieLike"
           ></like-dislike
         ></b-card-footer>
       </div>
@@ -46,11 +46,7 @@
 </template>
 
 <script>
-import {
-  getMovies,
-  getMyMovieLikes,
-  getNextMoviePage
-} from "../services/MovieService.js";
+import { getMovies, getNextMoviePage } from "../services/MovieService.js";
 import LikeDislike from "../components/LikeDislike.vue";
 export default {
   components: {
@@ -60,11 +56,9 @@ export default {
     return {
       currentPage: 1,
       movies: [],
-      userPreference: [],
     };
   },
   async created() {
-    this.userPreference = await getMyMovieLikes();
     this.movies = await getMovies();
   },
   methods: {
@@ -73,7 +67,10 @@ export default {
     },
     async fetchNextPage() {
       this.movies = await getNextMoviePage(this.movies.links[this.currentPage].url);
-    }
+    },
+    async updateMovieLike() {
+    this.movies = await getMovies();
+    },
   },
 };
 </script>
