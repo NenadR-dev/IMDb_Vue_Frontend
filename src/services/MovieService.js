@@ -50,7 +50,7 @@ class MovieService {
         movieData.append('description', data.description);
         movieData.append('genre', data.genre);
     
-        return await HttpClient.post('movies',data);
+        return await HttpClient.post('movies',movieData);
     }
     
     likeMovie = async (data) => {

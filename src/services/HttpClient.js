@@ -7,7 +7,7 @@ class HttpClient {
         this.setAuthorizationHeader()
     }
     setAuthorizationHeader(){
-        axios.defaults.headers.common['Authorization'] = `Bearer ${TokenService.getToken()}` 
+        axios.defaults.headers.common['Authorization'] = `Bearer ${TokenService.getToken()}`; 
     }
     async get(route) {
         return axios.get(`${this.url}/${route}`)
