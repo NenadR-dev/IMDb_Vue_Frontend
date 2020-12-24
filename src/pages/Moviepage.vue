@@ -38,8 +38,18 @@
       <b-textarea placeholder="Comment" rows="3" v-model="commentText" />
       <b-button variant="success" @click="postComment">Add comment</b-button>
     </b-row>
-    <div v-for="comment in movie.comments" :key="comment.id">
-      <comment :commentMessage="comment.comment_text" />
+    <div>
+      <b-pagination
+        v-model="currentPage"
+        :total-rows="comments.total"
+        :per-page="comments.per_page"
+        pills
+        size="lg"
+        @input="fetchNextPage"
+      ></b-pagination>
+      <div v-for="comment in comments.data" :key="comment.id">
+        <comment :commentMessage="comment.comment_text" />
+      </div>
     </div>
   </div>
 </template>
@@ -58,11 +68,15 @@ export default {
       movie: {},
       errorMessage: [],
       commentText: "",
+      comments: [],
+      currentPage: 1,
     };
   },
   async created() {
     try {
       this.movie = await MovieService.getMovieByID(this.$route.params.id);
+      this.comments = await MovieService.getMovieCommentsById(this.$route.params.id);
+      console.log(this.comments);
     } catch (e) {
       this.errorMessage = e;
     }
@@ -74,9 +88,18 @@ export default {
           comment: this.commentText,
           movieId: this.movie.id,
         });
-        this.movie.comments.push(newComment)
+        this.movie.comments.push(newComment);
       } catch (e) {
-        this.commentText = e
+        this.commentText = e;
+      }
+    },
+    async fetchNextPage() {
+      try {
+        this.comments = await MovieService.getNextPage(
+          this.comments.links[this.currentPage].url
+        );
+      } catch (e) {
+        this.errorMessage = e;
       }
     },
   },

@@ -39,7 +39,7 @@ class MovieService {
         return await HttpClient.get(`movies/${id}`);
     }
     
-    getNextMoviePage = async (url) => {
+    getNextPage = async (url) => {
         return await HttpClient.getNextPage(url);
     }
     
@@ -66,6 +66,10 @@ class MovieService {
     
     postUserComment = async (data) => {
         return await HttpClient.post('commentMovie',data);
+    }
+    
+    getMovieCommentsById = async(id) => {
+        return await HttpClient.get(`commentMovie/${id}`)
     }
 }
 

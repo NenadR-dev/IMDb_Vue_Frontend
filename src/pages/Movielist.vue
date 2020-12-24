@@ -81,7 +81,7 @@ export default {
       this.$router.push(`movie/${id}`);
     },
     async fetchNextPage() {
-      this.movies = await MovieService.getNextMoviePage(this.movies.links[this.currentPage].url);
+      this.movies = await MovieService.getNextPage(this.movies.links[this.currentPage].url);
     },
     async filterMovies() {
       this.movies = await MovieService.filterMovies(this.filter);
