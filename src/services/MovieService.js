@@ -110,3 +110,13 @@ export const getMyMovieLikes = () => {
             throw parseError(err.response.data.errors)
         })
 }
+
+export const postUserComment = (data) => {
+    return axios.post(`${url}/auth/commentMovie`,data,config)
+        .then(response => {
+            return response.data
+        })
+        .catch(err => {
+            return parseError(err.response.data.errors)
+        })
+}
