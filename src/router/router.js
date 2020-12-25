@@ -6,7 +6,7 @@ import Register from '../pages/Register.vue'
 import Dashboard from '../pages/Dashboard.vue'
 import MoviePage from '../pages/Moviepage.vue'
 import MovieList from '../pages/Movielist.vue'
-import MovieAdd from '../pages/MovieAdd.vue'
+import MovieAdd from '../pages/Movieadd.vue'
 import TokenService from '../services/TokenService.js'
 import Watchlist from '../pages/Watchlist.vue'
 
