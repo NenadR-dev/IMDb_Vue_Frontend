@@ -8,37 +8,44 @@
             :errorMessages="errorMessage"
           ></show-error>
         </h4>
-        <b-card
-          :img-src="movie.imageCover"
-          img-alt="Card image"
-          img-width="450px"
-          img-height="600px"
-          img-left
-          class="mb-3"
-        >
-          <b-card-title
-            ><b>{{ movie.title }}</b></b-card-title
+        <b-row>
+          <b-card
+            :img-src="movie.imageCover"
+            img-alt="Card image"
+            img-width="450px"
+            img-height="600px"
+            img-left
+            class="mb-3 movie-card"
           >
-          <b-card-text>
-            <p>
-              <b>{{ movie.description }}</b>
-            </p>
-            <br />
-            <p>
-              Genre: <b>{{ movie.genre }}</b>
-            </p>
-            <p>
-              Visited: <b>{{ movie.visited }} </b> times.
-            </p>
-            <b-button
-              :disabled="movieWatched"
-              @click="addToWatchlist(movie.id)"
-              variant="primary"
-              >Add to Watchlist</b-button
+            <b-card-title
+              ><b>{{ movie.title }}</b></b-card-title
             >
-            <span v-show="feedbackMsg">{{ feedbackMsg }}</span>
-          </b-card-text>
-        </b-card>
+            <b-card-text>
+              <p>
+                <b>{{ movie.description }}</b>
+              </p>
+              <br />
+              <p>
+                Genre: <b>{{ movie.genre }}</b>
+              </p>
+              <p>
+                Visited: <b>{{ movie.visited }} </b> times.
+              </p>
+              <b-button
+                :disabled="movieWatched"
+                @click="addToWatchlist(movie.id)"
+                variant="primary"
+                >Add to Watchlist</b-button
+              >
+              <span v-show="feedbackMsg">{{ feedbackMsg }}</span>
+            </b-card-text>
+          </b-card>
+          <sidebar
+            v-if="movie.genre !== undefined"
+            :relatedBy="movie.genre"
+            :movieId="movie.id"
+          />
+        </b-row>
       </div>
     </b-row>
     <div class="comment-section">
@@ -60,10 +67,12 @@
 import MovieService from "../services/MovieService.js";
 import Error from "../components/Error.vue";
 import Comment from "../components/Comment.vue";
+import Sidebar from "../components/Sidebar.vue";
 export default {
   components: {
     showError: Error,
     Comment,
+    Sidebar,
   },
   data() {
     return {
@@ -89,7 +98,7 @@ export default {
       return this.$store.getters.getUserCredentials;
     },
     movieWatched() {
-      if(this.movie.watchlist !== undefined) {
+      if (this.movie.watchlist !== undefined) {
         let watched = this.movie.watchlist.findIndex((x) => x.user_id === this.user.id);
         return watched !== -1;
       }
@@ -142,5 +151,9 @@ export default {
 .comment-section {
   margin-left: 40px;
   margin-right: 40px;
+}
+.movie-card {
+  padding-left: 70px;
+  width: 1200px;
 }
 </style>

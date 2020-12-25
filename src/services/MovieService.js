@@ -31,8 +31,8 @@ class MovieService {
         return await HttpClient.get('movies');
     }
     
-    filterMovies = async (filter) => {
-        return await HttpClient.get(`movies/?filter=${filter}`);
+    filterMovies = async (filter, filterBy) => {
+        return await HttpClient.get(`movies/?filter=${filter}&filterBy=${filterBy}`);
     }
     
     getMovieByID = async id => {
