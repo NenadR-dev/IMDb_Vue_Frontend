@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { calculateMovieLikes, likeMovie, removeLike } from "../services/MovieService.js";
+import MovieService from "../services/MovieService.js";
 export default {
   props: {
     movieId: Number,
@@ -40,7 +40,7 @@ export default {
     };
   },
   created() {
-    [this.numOfLikes, this.numOfDislikes] = calculateMovieLikes(this.$props.movieLikeCount)
+    [this.numOfLikes, this.numOfDislikes] = MovieService.calculateMovieLikes(this.$props.movieLikeCount)
     let movie = this.userPreference.find(x=> x.movie_id === this.movieId);
     if(movie !== undefined) {
       if(movie.liked === 1) {
@@ -53,7 +53,7 @@ export default {
   methods: {
     async toggleLike(like) {
       if((like === 'liked' && this.liked) || (like ==='disliked' && this.disliked)){
-        let result = await removeLike({
+        let result = await MovieService.removeLike({
           movieId: this.movieId
         });
         if(this.disliked) {
@@ -67,7 +67,7 @@ export default {
         return
       } 
       var isLiked = like ==='liked';
-      let result = await likeMovie({
+      let result = await MovieService.likeMovie({
         movieId: this.movieId,
         liked: isLiked
       })

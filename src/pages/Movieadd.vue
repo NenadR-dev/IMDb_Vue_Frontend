@@ -75,7 +75,7 @@
 
 <script>
 import Error from "../components/Error.vue";
-import { addMovie, genres } from "../services/MovieService.js";
+import MovieService, {genres} from "../services/MovieService.js";
 export default {
   components: {
     showError: Error,
@@ -106,7 +106,7 @@ export default {
   methods: {
     async onSubmit() {
       try {
-        await addMovie(this.movie);
+        await MovieService.addMovie(this.movie);
         this.feedback = "Movie Added";
       } catch (e) {
         this.errorMessage = e;

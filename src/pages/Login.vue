@@ -1,5 +1,6 @@
 <template>
   <div class="register-form">
+    <show-error v-show="errorMessage.length > 0" :errorMessages="errorMessage" />
     <b-form @submit.prevent="onSubmit">
       <b-form-group id="email-group" label="Email address:" label-for="email">
         <b-form-input
@@ -26,19 +27,23 @@
 </template>
 
 <script>
-import { Login } from "../services/AuthService.js";
+import AuthService from "../services/AuthService.js";
+import Error from '../components/Error.vue'
 export default {
+  components: {
+    showError: Error
+  },
   data() {
     return {
       email: "",
       pwd: "",
-      errorMessage: "",
+      errorMessage: [],
     };
   },
   methods: {
     async onSubmit() {
       try {
-        await Login({
+        await AuthService.login({
           email: this.email,
           password: this.pwd,
         });

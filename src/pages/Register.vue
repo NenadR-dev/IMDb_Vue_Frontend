@@ -73,8 +73,8 @@
 </template>
 
 <script>
-import { Register } from "../services/AuthService.js";
-import Error from "./Error.vue";
+import AuthService from "../services/AuthService.js";
+import Error from "../components/Error.vue";
 export default {
   components: {
     showError: Error,
@@ -103,7 +103,7 @@ export default {
   methods: {
     async onSubmit() {
       try {
-        await Register({
+        await AuthService.register({
           name: this.name,
           email: this.email,
           password: this.pwd,

@@ -34,18 +34,21 @@
         </b-card>
       </div>
     </b-row>
-    <b-row>
-      <b-textarea placeholder="Comment" rows="3" v-model="commentText" />
-      <b-button variant="success" @click="postComment">Add comment</b-button>
-    </b-row>
-    <div v-for="comment in movie.comments" :key="comment.id">
-      <comment :commentMessage="comment.comment_text" />
+    <div class="comment-section">
+      <b-row>
+        <b-textarea placeholder="Comment" rows="3" v-model="commentText" />
+        <b-button variant="success" @click="postComment">Add comment</b-button>
+      </b-row>
+      <div v-for="comment in comments.data" :key="comment.id">
+        <comment :commentMessage="comment.comment_text" />
+      </div>
+      <b-link v-show="comments.last_page !== currentPage" @click="fetchNextPage">Show more</b-link>
     </div>
   </div>
 </template>
 
 <script>
-import { getMovieByID, postUserComment } from "../services/MovieService.js";
+import MovieService from "../services/MovieService.js";
 import Error from "../components/Error.vue";
 import Comment from "../components/Comment.vue";
 export default {
@@ -58,11 +61,15 @@ export default {
       movie: {},
       errorMessage: [],
       commentText: "",
+      comments: [],
+      currentPage: 1,
     };
   },
   async created() {
     try {
-      this.movie = await getMovieByID(this.$route.params.id);
+      this.movie = await MovieService.getMovieByID(this.$route.params.id);
+      this.comments = await MovieService.getMovieCommentsById(this.$route.params.id, 10);
+      console.log(this.comments);
     } catch (e) {
       this.errorMessage = e;
     }
@@ -70,17 +77,37 @@ export default {
   methods: {
     async postComment() {
       try {
-        var newComment = await postUserComment({
+        var newComment = await MovieService.postUserComment({
           comment: this.commentText,
           movieId: this.movie.id,
         });
-        this.movie.comments.push(newComment)
+        this.comments.data.unshift(newComment);
       } catch (e) {
-        this.commentText = e
+        this.commentText = e;
+      }
+    },
+    async fetchNextPage() {
+      try {
+        this.comments.last_page >= this.currentPage
+          ? (this.currentPage += 1)
+          : this.currentPage;
+        var newComments = await MovieService.getNextPage(
+          this.comments.links[this.currentPage].url
+        );
+        newComments.data.forEach((comment) => {
+          this.comments.data.push(comment);
+        });
+      } catch (e) {
+        this.errorMessage = e;
       }
     },
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+.comment-section {
+  margin-left: 40px;
+  margin-right: 40px;
+}
+</style>

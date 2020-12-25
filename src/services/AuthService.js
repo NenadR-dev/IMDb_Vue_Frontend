@@ -1,53 +1,25 @@
-import axios from 'axios'
-import { url } from './url.js'
-import router from '../router/router.js'
-import {parseError} from './ErrorParser.js'
+import router from '../router/router.js';
+import HttpClient from './HttpClient.js'
+import TokenService from './TokenService.js';
 
-const setToken = (token) => {
-    window.localStorage.setItem('jwtToken', token)
-}
+class AuthService {
+    constructor() {
 
-const deleteToken = () => {
-    window.localStorage.removeItem('jwtToken')
-}
-export const getToken = () => {
-    return window.localStorage.getItem('jwtToken')
-}
-
-export const config = {
-    headers: {
-        'Authorization' : `Bearer ${getToken()}`
+    }
+    register = async (data) => {
+        return await HttpClient.post(data);
+    }
+    login = async (data) => {
+        return await HttpClient.post('login', data)
+            .then(response => {
+                TokenService.setToken(response.access_token)
+                router.push('/movielist');
+            })
+    }
+    logout = async () => {
+        await HttpClient.post('logout');
+        TokenService.deleteToken();
+        router.push('/');
     }
 }
-
-export const Register = (data) => {
-    return axios.post(`${url}/user`, data)
-        .then(() => {
-            router.push('/login')
-        })
-        .catch((err) => {
-           throw parseError(err.response.data.errors)
-        })
-}
-
-export const Login = (data) => {
-    axios.post(`${url}/auth/login`, data)
-        .then(response => {
-            setToken(response.data.access_token)
-            router.push('/movielist')
-        })
-        .catch(err => {
-            throw parseError(err.response.data.errors)
-        })
-}
-
-export const Logout = () => {
-    axios.post(`${url}/auth/logout`, null, config)
-    .then(() => {
-        deleteToken()
-        router.push({ name: 'home' })
-    })
-    .catch(err => {
-        throw parseError(err.response.data.errors)
-    })
-}
+export default new AuthService()
