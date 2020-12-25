@@ -33,11 +33,11 @@
 </template>
 
 <script>
-import { Logout } from "../services/AuthService.js";
+import AuthService from "../services/AuthService.js";
 export default {
   methods: {
     async logout() {
-      Logout();
+      await AuthService.logout();
     },
   },
 };

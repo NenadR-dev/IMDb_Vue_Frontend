@@ -54,13 +54,7 @@
 </template>
 
 <script>
-import {
-  getMovies,
-  getMyMovieLikes,
-  getNextMoviePage,
-  genres,
-  filterMovies,
-} from "../services/MovieService.js";
+import MovieService, {genres} from "../services/MovieService.js";
 import LikeDislike from "../components/LikeDislike.vue";
 export default {
   components: {
@@ -72,24 +66,25 @@ export default {
       movies: [],
       userPreference: [],
       filter: null,
-      genres,
+      genres : genres,
     };
   },
   async created() {
-    this.movies = await getMovies();
+    this.userPreference = await MovieService.getMyMovieLikes();
+    this.movies = await MovieService.getMovies();
   },
   methods: {
     navigateToImage(id) {
       this.$router.push(`movie/${id}`);
     },
     async fetchNextPage() {
-      this.movies = await getNextMoviePage(this.movies.links[this.currentPage].url);
+      this.movies = await MovieService.getNextPage(this.movies.links[this.currentPage].url);
     },
     async updateMovieLike() {
     this.movies = await getMovies();
     },
     async filterMovies() {
-      this.movies = await filterMovies(this.filter, 'genre');
+      this.movies = await MovieService.filterMovies(this.filter);
     }
   },
 };

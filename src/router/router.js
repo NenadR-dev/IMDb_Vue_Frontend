@@ -1,13 +1,13 @@
 
 import VueRouter from "vue-router";
-import Home from '../components/Home.vue'
-import Login from '../components/Login.vue'
-import Register from '../components/Register.vue'
-import Dashboard from '../components/Dashboard.vue'
+import Home from '../pages/Home.vue'
+import Login from '../pages/Login.vue'
+import Register from '../pages/Register.vue'
+import Dashboard from '../pages/Dashboard.vue'
 import Moviepage from '../pages/Moviepage.vue'
 import Movielist from '../pages/Movielist.vue'
-import Movieadd from '../pages/Movieadd.vue'
-import { getToken } from '../services/AuthService.js'
+import Movieadd from '../pages/MovieAdd.vue'
+import TokenService from '../services/TokenService.js'
 
 const routes = [
     {
@@ -67,7 +67,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     if (to.meta.guest) {
-        if (getToken()) {
+        if (TokenService.getToken()) {
             return next({name: 'movielist'})
         } else {
             return next()

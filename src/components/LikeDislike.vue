@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import { calculateMovieLikes, likeMovie, removeLike } from "../services/MovieService.js";
-import Error from './Error.vue'
+import MovieService from "../services/MovieService.js";
+import Error from '../components/Error.vue'
 export default {
   components: {
     showError: Error
