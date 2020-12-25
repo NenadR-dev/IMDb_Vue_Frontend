@@ -89,7 +89,7 @@ export default {
       return this.$store.getters.getUserCredentials;
     },
     movieWatched() {
-      if(this.movie.watchlist !== undefined) {
+      if (this.movie.watchlist !== undefined) {
         let watched = this.movie.watchlist.findIndex((x) => x.user_id === this.user.id);
         return watched !== -1;
       }

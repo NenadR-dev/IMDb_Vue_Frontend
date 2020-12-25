@@ -84,7 +84,7 @@ export default {
   computed: {
     user() {
       return this.$store.getters.getUserCredentials;
-    }
+    },
   },
   methods: {
     movieWatched(movie) {
@@ -94,10 +94,7 @@ export default {
       const index = movie.watchlist.findIndex(
         (watchedFilm) => watchedFilm.user_id === this.user.id
       );
-      console.log(index);
-      console.log(movie.watchlist);
-      console.log(movie.watchlist[index].watched === 1);
-      return movie.watchlist[index].watched === 1 ? true : false;
+      return movie.watchlist[index].watched;
     },
     navigateToImage(id) {
       this.$router.push(`movie/${id}`);

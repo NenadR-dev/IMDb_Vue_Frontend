@@ -17,10 +17,10 @@
     <div v-else>
       <b-navbar toggleable="lg" type="dark" variant="info">
         <b-navbar-brand @click="redirect('movielist')">IMDb</b-navbar-brand>
-          <b-navbar-nav class="ml-auto">
-            <b-nav-item @click="redirect('addMoviePage')">Add movie</b-nav-item>
-            <b-nav-item @click="redirect('watchlist')">Watchlist</b-nav-item>
-          </b-navbar-nav>
+        <b-navbar-nav class="ml-auto">
+          <b-nav-item @click="redirect('addMoviePage')">Add movie</b-nav-item>
+          <b-nav-item @click="redirect('watchlist')">Watchlist</b-nav-item>
+        </b-navbar-nav>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
         <b-collapse id="nav-collapse" is-nav>
@@ -40,9 +40,9 @@ export default {
     async logout() {
       await AuthService.logout();
     },
-    redirect(route){
-      this.$router.push({name: route});
-    }
+    redirect(route) {
+      this.$router.push({ name: route });
+    },
   },
 };
 </script>

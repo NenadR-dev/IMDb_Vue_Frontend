@@ -52,7 +52,7 @@ export default {
     return {
       movies: [],
       errorMessage: [],
-      status: 0
+      status: 0,
     };
   },
   methods: {
@@ -67,18 +67,18 @@ export default {
         this.errorMessage = e;
       }
     },
-    async updateWatchlist(data){
-      try{
+    async updateWatchlist(data) {
+      try {
         console.log(data);
         await MovieService.updateWatchlist({
           movieId: data.movie_id,
           userId: data.user_id,
-          watched: data.watched
+          watched: data.watched,
         });
-      } catch(e){
+      } catch (e) {
         this.errorMessage = e;
       }
-    }
+    },
   },
   async created() {
     try {
