@@ -78,7 +78,7 @@ export default {
   async created() {
     try {
       this.movie = await MovieService.getMovieByID(this.$route.params.id);
-      this.comments = await MovieService.getMovieCommentsById(this.$route.params.id);
+      this.comments = await MovieService.getMovieCommentsById(this.$route.params.id, 10);
       console.log(this.comments);
     } catch (e) {
       this.errorMessage = e;
