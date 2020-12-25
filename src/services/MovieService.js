@@ -68,8 +68,8 @@ class MovieService {
         return await HttpClient.post('commentMovie',data);
     }
     
-    getMovieCommentsById = async(id) => {
-        return await HttpClient.get(`commentMovie/${id}`)
+    getMovieCommentsById = async(id, paginateBy) => {
+        return await HttpClient.get(`commentMovie/${id}?paginateBy=${paginateBy}`)
     }
 
     getWatchlist = async() => {
