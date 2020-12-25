@@ -4,10 +4,11 @@ import Home from '../pages/Home.vue'
 import Login from '../pages/Login.vue'
 import Register from '../pages/Register.vue'
 import Dashboard from '../pages/Dashboard.vue'
-import Moviepage from '../pages/MoviePage.vue'
-import Movielist from '../pages/MovieList.vue'
-import Movieadd from '../pages/MovieAdd.vue'
+import MoviePage from '../pages/MoviePage.vue'
+import MovieList from '../pages/MovieList.vue'
+import MovieAdd from '../pages/MovieAdd.vue'
 import TokenService from '../services/TokenService.js'
+import Watchlist from '../pages/Watchlist.vue'
 
 const routes = [
     {
@@ -28,17 +29,22 @@ const routes = [
             {
                 path: 'movielist',
                 name: 'movielist',
-                component: Movielist
+                component: MovieList
             },
             {
                 path: 'movie/:id',
                 name: 'moviePage',
-                component: Moviepage
+                component: MoviePage
             },
             {
                 path: 'add',
                 name: 'addMoviePage',
-                component: Movieadd
+                component: MovieAdd
+            },
+            {
+                path: 'watchlist',
+                name: 'watchlist',
+                component: Watchlist
             }
         ]
     },

@@ -15,9 +15,11 @@
     </b-row>
     <b-row class="center mb-3">
       <b-form-select @change="filterMovies" v-model="filter" :options="genres" size="md">
-      <template #first>
-        <b-form-select-option :value="null" disabled>-- Please select an option --</b-form-select-option>
-      </template>
+        <template #first>
+          <b-form-select-option :value="null" disabled
+            >-- Please select an option --</b-form-select-option
+          >
+        </template>
         <b-form-select-option value="all"> All </b-form-select-option>
       </b-form-select>
     </b-row>
@@ -42,6 +44,7 @@
             <p>
               Visited: <b>{{ movie.visited }}</b> times.
             </p>
+            <p v-show="movieWatched(movie)"><b>Watched</b></p>
           </b-card-text>
         </b-card>
         <b-card-footer>
@@ -57,7 +60,7 @@
 </template>
 
 <script>
-import MovieService, {genres} from "../services/MovieService.js";
+import MovieService, { genres } from "../services/MovieService.js";
 import LikeDislike from "../components/LikeDislike.vue";
 export default {
   components: {
@@ -69,23 +72,44 @@ export default {
       movies: [],
       userPreference: [],
       filter: null,
-      genres : genres,
+      genres: genres,
+      watched: [],
     };
   },
   async created() {
+    this.watched = await MovieService.getWatchlist();
     this.userPreference = await MovieService.getMyMovieLikes();
     this.movies = await MovieService.getMovies();
   },
+  computed: {
+    user() {
+      return this.$store.getters.getUserCredentials;
+    }
+  },
   methods: {
+    movieWatched(movie) {
+      if (!movie.watchlist.length) {
+        return false;
+      }
+      const index = movie.watchlist.findIndex(
+        (watchedFilm) => watchedFilm.user_id === this.user.id
+      );
+      console.log(index);
+      console.log(movie.watchlist);
+      console.log(movie.watchlist[index].watched === 1);
+      return movie.watchlist[index].watched === 1 ? true : false;
+    },
     navigateToImage(id) {
       this.$router.push(`movie/${id}`);
     },
     async fetchNextPage() {
-      this.movies = await MovieService.getNextPage(this.movies.links[this.currentPage].url);
+      this.movies = await MovieService.getNextPage(
+        this.movies.links[this.currentPage].url
+      );
     },
     async filterMovies() {
       this.movies = await MovieService.filterMovies(this.filter);
-    }
+    },
   },
 };
 </script>

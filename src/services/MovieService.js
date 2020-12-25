@@ -71,6 +71,20 @@ class MovieService {
     getMovieCommentsById = async(id) => {
         return await HttpClient.get(`commentMovie/${id}`)
     }
+
+    getWatchlist = async() => {
+        return await HttpClient.get('watchlist');
+    }
+
+    addMovieToWatchlist = async(data) => {
+        return await HttpClient.post('watchlist',data);
+    }
+    removeMovieFromWatchlist = async(id) => {
+        return await HttpClient.delete('watchlist',id);
+    }
+    updateWatchlist = async(data) => {
+        return await HttpClient.put(`watchlist/${data.movieId}`,data);
+    }
 }
 
 export default new MovieService()
