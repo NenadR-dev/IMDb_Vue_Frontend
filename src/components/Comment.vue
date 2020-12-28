@@ -6,7 +6,7 @@
       </template>
 
       <h5 class="mt-0">User name here</h5>
-      <p>{{commentMessage}}</p>
+      <p>{{ commentMessage }}</p>
     </b-media>
   </b-card>
 </template>
@@ -14,12 +14,10 @@
 <script>
 export default {
   props: {
-      commentMessage: String,
-      commentUser: String
-  }
-}
+    commentMessage: String,
+    commentUser: String,
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

@@ -36,7 +36,6 @@ class HttpClient {
                 throw parseError(err.response.data.errors);
             })
     }
-
     async put(id, payload) {
         return axios.put(`${this.url}/${id}`,payload)
             .then(response => {
@@ -46,8 +45,8 @@ class HttpClient {
                 throw parseError(err.response.data.errors);
             })
     }
-    async delete(id) {
-        return axios.delete(`${this.url}/${id}`)
+    async delete(route,id) {
+        return axios.delete(`${this.url}/${route}/${id}`)
             .then(response => {
                 return response.data;
             })

@@ -28,11 +28,7 @@
             max-rows="6"
             v-model="movie.description"
           ></b-form-textarea>
-          <b-form-group
-            id="genre-group"
-            label="Genre"
-            label-for="Genre"
-          ></b-form-group>
+          <b-form-group id="genre-group" label="Genre" label-for="Genre"></b-form-group>
           <b-form-select
             id="genre"
             name="genre"
@@ -41,11 +37,7 @@
             required
             v-model="movie.genre"
           ></b-form-select>
-          <b-form-group
-            id="image-group"
-            label="Image"
-            label-for="image"
-          ></b-form-group>
+          <b-form-group id="image-group" label="Image" label-for="image"></b-form-group>
           <b-form-file
             id="image"
             name="image"
@@ -60,10 +52,7 @@
           ><b-button class="btn-padding" type="submit" variant="primary"
             >Add Movie
           </b-button>
-          <show-error
-            v-show="errorMessage.length > 0"
-            :errorMessages="errorMessage"
-          />
+          <show-error v-show="errorMessage.length > 0" :errorMessages="errorMessage" />
           <h4 class="feedback-text" :v-show="feedback">
             {{ feedback }}
           </h4></b-row
@@ -75,7 +64,7 @@
 
 <script>
 import Error from "../components/Error.vue";
-import MovieService, {genres} from "../services/MovieService.js";
+import MovieService, { genres } from "../services/MovieService.js";
 export default {
   components: {
     showError: Error,
@@ -89,7 +78,7 @@ export default {
         imageCover: null,
       },
       genres,
-      
+
       errorMessage: [],
       feedback: "",
     };

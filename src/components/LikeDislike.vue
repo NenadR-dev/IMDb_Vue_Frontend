@@ -29,7 +29,7 @@ export default {
   props: {
     movieId: Number,
     userPreference: Array,
-    movieLikeCount : Array
+    movieLikeCount: Array,
   },
   data() {
     return {
@@ -40,45 +40,47 @@ export default {
     };
   },
   created() {
-    [this.numOfLikes, this.numOfDislikes] = MovieService.calculateMovieLikes(this.$props.movieLikeCount)
-    let movie = this.userPreference.find(x=> x.movie_id === this.movieId);
-    if(movie !== undefined) {
-      if(movie.liked === 1) {
-        this.liked = true
+    [this.numOfLikes, this.numOfDislikes] = MovieService.calculateMovieLikes(
+      this.$props.movieLikeCount
+    );
+    let movie = this.userPreference.find((x) => x.movie_id === this.movieId);
+    if (movie !== undefined) {
+      if (movie.liked === 1) {
+        this.liked = true;
       } else {
-        this.disliked = true
+        this.disliked = true;
       }
     }
   },
   methods: {
     async toggleLike(like) {
-      if((like === 'liked' && this.liked) || (like ==='disliked' && this.disliked)){
+      if ((like === "liked" && this.liked) || (like === "disliked" && this.disliked)) {
         let result = await MovieService.removeLike({
-          movieId: this.movieId
+          movieId: this.movieId,
         });
-        if(this.disliked) {
-          this.numOfDislikes -=1
+        if (this.disliked) {
+          this.numOfDislikes -= 1;
         } else {
-          this.numOfLikes -=1
+          this.numOfLikes -= 1;
         }
-        this.disliked = false
-        this.liked = false
-        console.log(result)
-        return
-      } 
-      var isLiked = like ==='liked';
+        this.disliked = false;
+        this.liked = false;
+        console.log(result);
+        return;
+      }
+      var isLiked = like === "liked";
       let result = await MovieService.likeMovie({
         movieId: this.movieId,
-        liked: isLiked
-      })
-      if(result.pivot.liked === 1) {
-        this.liked = true
-        this.disliked = false
-        this.numOfLikes +=1
+        liked: isLiked,
+      });
+      if (result.pivot.liked === 1) {
+        this.liked = true;
+        this.disliked = false;
+        this.numOfLikes += 1;
       } else {
-        this.disliked = true
-        this.liked = false
-        this.numOfDislikes +=1
+        this.disliked = true;
+        this.liked = false;
+        this.numOfDislikes += 1;
       }
     },
   },

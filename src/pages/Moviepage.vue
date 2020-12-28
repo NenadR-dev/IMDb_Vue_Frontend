@@ -30,6 +30,13 @@
             <p>
               Visited: <b>{{ movie.visited }} </b> times.
             </p>
+            <b-button
+              :disabled="movieWatched"
+              @click="addToWatchlist(movie.id)"
+              variant="primary"
+              >Add to Watchlist</b-button
+            >
+            <span v-show="feedbackMsg">{{ feedbackMsg }}</span>
           </b-card-text>
         </b-card>
       </div>
@@ -42,7 +49,9 @@
       <div v-for="comment in comments.data" :key="comment.id">
         <comment :commentMessage="comment.comment_text" />
       </div>
-      <b-link v-show="comments.last_page !== currentPage" @click="fetchNextPage">Show more</b-link>
+      <b-link v-show="comments.last_page !== currentPage" @click="fetchNextPage"
+        >Show more</b-link
+      >
     </div>
   </div>
 </template>
@@ -63,16 +72,28 @@ export default {
       commentText: "",
       comments: [],
       currentPage: 1,
+      feedbackMsg: "",
     };
   },
   async created() {
     try {
       this.movie = await MovieService.getMovieByID(this.$route.params.id);
       this.comments = await MovieService.getMovieCommentsById(this.$route.params.id, 10);
-      console.log(this.comments);
     } catch (e) {
       this.errorMessage = e;
     }
+  },
+  computed: {
+    user() {
+      return this.$store.getters.getUserCredentials;
+    },
+    movieWatched() {
+      if (this.movie.watchlist !== undefined) {
+        let watched = this.movie.watchlist.findIndex((x) => x.user_id === this.user.id);
+        return watched !== -1;
+      }
+      return false;
+    },
   },
   methods: {
     async postComment() {
@@ -97,6 +118,17 @@ export default {
         newComments.data.forEach((comment) => {
           this.comments.data.push(comment);
         });
+      } catch (e) {
+        this.errorMessage = e;
+      }
+    },
+    async addToWatchlist(id) {
+      try {
+        await MovieService.addMovieToWatchlist({
+          movieId: id,
+          watched: false,
+        });
+        this.feedbackMsg = "Movie added";
       } catch (e) {
         this.errorMessage = e;
       }
