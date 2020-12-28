@@ -95,7 +95,7 @@ export default {
   },
   methods: {
     movieWatched(movie) {
-      if (!movie.watchlist.length) {
+      if (!movie.watchlist) {
         return false;
       }
       const index = movie.watchlist.findIndex(
