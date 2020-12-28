@@ -37,14 +37,14 @@
                 variant="primary"
                 >Add to Watchlist</b-button
               >
+              <sidebar
+                v-if="movie.genre"
+                :relatedBy="movie.genre"
+                :movieId="movie.id"
+              ></sidebar>
               <span v-show="feedbackMsg">{{ feedbackMsg }}</span>
             </b-card-text>
           </b-card>
-          <sidebar
-            v-if="movie.genre !== undefined"
-            :relatedBy="movie.genre"
-            :movieId="movie.id"
-          />
         </b-row>
       </div>
     </b-row>

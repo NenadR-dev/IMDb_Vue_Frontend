@@ -2,6 +2,7 @@
   <div>
     <b-button v-b-toggle.sidebar-right>Related Movies</b-button>
     <b-sidebar id="sidebar-right" title="Related Movies" right shadow>
+      <h1><show-error :errorMessages="errorMessages" v-if="errorMessages" /></h1>
       <div class="px-3 py-2" v-for="movie in movies" :key="movie.id">
         <b-card
           :title="movie.title"
@@ -23,7 +24,11 @@
 
 <script>
 import MovieService from "../services/MovieService";
+import Error from "./Error.vue";
 export default {
+  components: {
+    showError: Error,
+  },
   props: {
     relatedBy: String,
     movieId: Number,
@@ -31,22 +36,21 @@ export default {
   data() {
     return {
       relatedMovies: [],
+      errorMessages: "",
     };
   },
   computed: {
     movies() {
-      if (this.relatedMovies.data !== undefined) {
-        return this.relatedMovies.data.filter((x) => x.id !== this.movieId);
-      }
-      return [];
+      return this.relatedMovies.data
+        ? this.relatedMovies.data.filter((x) => x.id !== this.movieId)
+        : [];
     },
   },
   async created() {
     try {
       this.relatedMovies = await MovieService.filterMovies(this.relatedBy, "genre");
-      console.log(this.relatedMovies);
     } catch (e) {
-      console.log(e);
+      this.errorMessages = e;
     }
   },
   methods: {
