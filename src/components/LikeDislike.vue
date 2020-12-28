@@ -34,8 +34,8 @@ export default {
   },
   props: {
     movieId: Number,
-    movieStatus: Array,
-    updateMovie: Function,
+    userPreference: Array,
+    movieLikeCount: Array,
   },
   data() {
     return {
@@ -47,8 +47,10 @@ export default {
     };
   },
   created() {
-    [this.numOfLikes, this.numOfDislikes] = calculateMovieLikes(this.$props.movieStatus);
-    let movie = this.movieStatus.find((x) => x.movie_id === this.movieId);
+    [this.numOfLikes, this.numOfDislikes] = MovieService.calculateMovieLikes(
+      this.$props.movieLikeCount
+    );
+    let movie = this.userPreference.find((x) => x.movie_id === this.movieId);
     if (movie !== undefined) {
       if (movie.liked === 1) {
         this.liked = true;
@@ -67,27 +69,32 @@ export default {
   methods: {
     async toggleLike(like) {
       if ((like === "liked" && this.liked) || (like === "disliked" && this.disliked)) {
-        await removeLike({
+        let result = await MovieService.removeLike({
           movieId: this.movieId,
         });
-        this.liked = false;
+        if (this.disliked) {
+          this.numOfDislikes -= 1;
+        } else {
+          this.numOfLikes -= 1;
+        }
         this.disliked = false;
-        this.$props.updateMovie();
+        this.liked = false;
+        console.log(result);
         return;
       }
-      try {
-        this.liked = like === "liked";
-        this.disliked = !this.liked;
-        var result = await likeMovie({
-          liked: this.liked,
-          disliked: this.disliked,
-          movieId: this.movieId,
-        });
-        this.liked = Boolean(result.pivot.liked);
-        this.disliked = Boolean(result.pivot.disliked);
-        this.$props.updateMovie();
-      } catch (e) {
-        this.errorMessage = e
+      var isLiked = like === "liked";
+      let result = await MovieService.likeMovie({
+        movieId: this.movieId,
+        liked: isLiked,
+      });
+      if (result.pivot.liked === 1) {
+        this.liked = true;
+        this.disliked = false;
+        this.numOfLikes += 1;
+      } else {
+        this.disliked = true;
+        this.liked = false;
+        this.numOfDislikes += 1;
       }
     },
   },

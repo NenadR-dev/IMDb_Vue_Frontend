@@ -1,7 +1,7 @@
 import router from '../router/router.js';
 import HttpClient from './HttpClient.js'
 import TokenService from './TokenService.js';
-
+import store from '../store'
 class AuthService {
     constructor() {
 
@@ -11,9 +11,17 @@ class AuthService {
     }
     login = async (data) => {
         return await HttpClient.post('login', data)
-            .then(response => {
-                TokenService.setToken(response.access_token)
+            .then(async response => {
+                TokenService.setToken(response.access_token);
+                HttpClient.setAuthorizationHeader();
+                await this.getUser();
                 router.push('/movielist');
+            })
+    }
+    getUser = async () => {
+        return await HttpClient.post('me',null)
+            .then(response => {
+                store.dispatch('setUserCredentials',response);
             })
     }
     logout = async () => {

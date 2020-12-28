@@ -28,10 +28,10 @@
 
 <script>
 import AuthService from "../services/AuthService.js";
-import Error from '../components/Error.vue'
+import Error from "../components/Error.vue";
 export default {
   components: {
-    showError: Error
+    showError: Error,
   },
   data() {
     return {
