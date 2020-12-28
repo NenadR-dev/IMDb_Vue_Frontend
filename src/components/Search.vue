@@ -37,9 +37,8 @@ export default {
         return "⟳ Fetching new results";
       } else if (this.searchQueryIsDirty) {
         return "... Typing";
-      } else {
-        return "✓ Done";
       }
+      return "✓ Done";
     },
   },
   watch: {
@@ -51,7 +50,7 @@ export default {
   methods: {
     expensiveOperation: _.debounce(async function () {
       this.isCalculating = true;
-      this.searchQuery === ""
+      !this.searchQuery
         ? (this.testMovie = await MovieService.getMovies())
         : (this.testMovie = await MovieService.filterMovies(this.searchQuery, "title"));
       this.isCalculating = false;

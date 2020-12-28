@@ -111,7 +111,6 @@ export default {
     },
     searchMovie(movieList) {
       this.movies = movieList;
-      console.log(movieList);
     },
     async fetchNextPage() {
       this.movies = await MovieService.getNextPage(
