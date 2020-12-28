@@ -36,7 +36,6 @@ class HttpClient {
                 throw parseError(err.response.data.errors);
             })
     }
-
     async put(id, payload) {
         return axios.put(`${this.url}/${id}`,payload)
             .then(response => {
