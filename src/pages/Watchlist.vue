@@ -3,7 +3,7 @@
     <h1>Watchlist</h1>
     <show-error v-show="errorMessage.length > 0" :errorMessages="errorMessage" />
     <b-row>
-      <div class="center card-distance" v-for="movie in movies.watched" :key="movie.id">
+      <div class="center card-distance" v-for="movie in movies" :key="movie.id">
         <b-card
           :title="movie.title"
           :img-src="movie.imageCover"
