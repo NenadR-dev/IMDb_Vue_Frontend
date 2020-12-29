@@ -13,6 +13,7 @@
         @input="fetchNextPage"
       ></b-pagination>
     </b-row>
+    <search :searchMovie="searchMovie"/>
     <b-row class="center mb-3">
       <b-form-select @change="filterMovies" v-model="filter" :options="genres" size="md">
         <template #first>
@@ -62,9 +63,11 @@
 <script>
 import MovieService, { genres } from "../services/MovieService.js";
 import LikeDislike from "../components/LikeDislike.vue";
+import Search from "../components/Search.vue";
 export default {
   components: {
     LikeDislike,
+    Search
   },
   data() {
     return {
@@ -99,13 +102,17 @@ export default {
     navigateToImage(id) {
       this.$router.push(`movie/${id}`);
     },
+    searchMovie(movieList){
+      this.movies = movieList;
+      console.log(movieList)
+    },
     async fetchNextPage() {
       this.movies = await MovieService.getNextPage(
         this.movies.links[this.currentPage].url
       );
     },
     async filterMovies() {
-      this.movies = await MovieService.filterMovies(this.filter);
+      this.movies = await MovieService.filterMovies(this.filter,'genre');
     },
   },
 };
@@ -130,5 +137,6 @@ export default {
 }
 .center {
   justify-content: center;
+  margin: auto;
 }
 </style>
