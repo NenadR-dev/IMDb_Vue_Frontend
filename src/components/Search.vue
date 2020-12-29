@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import _ from "lodash";
+import debounce from "lodash/debounce";
 import MovieService from "../services/MovieService";
 export default {
   props: {
@@ -48,7 +48,7 @@ export default {
     },
   },
   methods: {
-    expensiveOperation: _.debounce(async function () {
+    expensiveOperation: debounce(async function () {
       this.isCalculating = true;
       !this.searchQuery
         ? (this.testMovie = await MovieService.getMovies())

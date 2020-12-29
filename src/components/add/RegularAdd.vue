@@ -85,11 +85,9 @@ export default {
   computed: {
     showImage() {
       if (this.movie.imageCover) {
-        console.log(this.movie.imageCover);
         return URL.createObjectURL(this.movie.imageCover);
-      } else {
-        return "";
       }
+      return "";
     },
   },
   methods: {

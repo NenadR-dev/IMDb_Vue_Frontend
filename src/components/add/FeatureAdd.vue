@@ -95,14 +95,14 @@ export default {
     showImage() {
       if (this.movie.imageCover) {
         return URL.createObjectURL(this.movie.imageCover);
-      } else {
-        return "";
       }
+      return "";
     },
     searchIndicator: function () {
       if (this.isCalculating) {
         return "⟳ Fetching new results";
-      } else if (this.searchQueryIsDirty) {
+      }
+      if (this.searchQueryIsDirty) {
         return "... Typing";
       }
       return "✓ Done";
