@@ -7,7 +7,7 @@ class AuthService {
 
     }
     register = async (data) => {
-        return await HttpClient.post(data);
+        return await HttpClient.post('user',data);
     }
     login = async (data) => {
         return await HttpClient.post('login', data)

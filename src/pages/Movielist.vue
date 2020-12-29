@@ -13,7 +13,9 @@
         @input="fetchNextPage"
       ></b-pagination>
     </b-row>
-    <search :searchMovie="searchMovie"/>
+    <search :searchMovie="searchMovie" />
+
+    <popular-movies />
     <b-row class="center mb-3">
       <b-form-select @change="filterMovies" v-model="filter" :options="genres" size="md">
         <template #first>
@@ -64,10 +66,12 @@
 import MovieService, { genres } from "../services/MovieService.js";
 import LikeDislike from "../components/LikeDislike.vue";
 import Search from "../components/Search.vue";
+import PopularMovies from "../components/PopularMovies.vue";
 export default {
   components: {
     LikeDislike,
-    Search
+    Search,
+    PopularMovies,
   },
   data() {
     return {
@@ -91,20 +95,22 @@ export default {
   },
   methods: {
     movieWatched(movie) {
-      if (!movie.watchlist.length) {
+      if (!movie.watchlist) {
         return false;
       }
       const index = movie.watchlist.findIndex(
         (watchedFilm) => watchedFilm.user_id === this.user.id
       );
+      if (index === -1) {
+        return false;
+      }
       return movie.watchlist[index].watched;
     },
     navigateToImage(id) {
       this.$router.push(`movie/${id}`);
     },
-    searchMovie(movieList){
+    searchMovie(movieList) {
       this.movies = movieList;
-      console.log(movieList)
     },
     async fetchNextPage() {
       this.movies = await MovieService.getNextPage(
@@ -112,7 +118,7 @@ export default {
       );
     },
     async filterMovies() {
-      this.movies = await MovieService.filterMovies(this.filter,'genre');
+      this.movies = await MovieService.filterMovies(this.filter, "genre");
     },
   },
 };

@@ -72,6 +72,9 @@ class MovieService {
     updateWatchlist = async (data) => {
         return await HttpClient.put(`watchlist/${data.movieId}`, data);
     }
+    OMDBMovieData = async(title) => {
+        return await HttpClient.OMDBget(title);
+    }
 }
 
 export default new MovieService()
