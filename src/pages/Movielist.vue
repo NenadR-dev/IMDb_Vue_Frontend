@@ -53,8 +53,8 @@
         <b-card-footer>
           <like-dislike
             :movieId="movie.id"
-            :movieLikeCount="movie.likes"
-            :userPreference="userPreference"
+            :movieStatus="movie.likes"
+            :updateMovie="updateMovieLike"
           ></like-dislike
         ></b-card-footer>
       </div>
@@ -116,6 +116,9 @@ export default {
       this.movies = await MovieService.getNextPage(
         this.movies.links[this.currentPage].url
       );
+    },
+    async updateMovieLike() {
+    this.movies = await getMovies();
     },
     async filterMovies() {
       this.movies = await MovieService.filterMovies(this.filter, "genre");

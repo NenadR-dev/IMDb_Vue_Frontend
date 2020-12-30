@@ -1,5 +1,7 @@
 <template>
   <b-row>
+    <h1>
+    <show-error v-show="errorMessage.length > 0" :errorMessages="errorMessage" /></h1>
     <b-col class="like"
       ><b-icon
         icon="emoji-smile-fill"
@@ -25,7 +27,11 @@
 
 <script>
 import MovieService from "../services/MovieService.js";
+import Error from '../components/Error.vue'
 export default {
+  components: {
+    showError: Error
+  },
   props: {
     movieId: Number,
     userPreference: Array,
@@ -37,6 +43,7 @@ export default {
       disliked: false,
       numOfLikes: 0,
       numOfDislikes: 0,
+      errorMessage: []
     };
   },
   created() {
@@ -51,6 +58,13 @@ export default {
         this.disliked = true;
       }
     }
+  },
+  watch: {
+    movieStatus() {
+      [this.numOfLikes, this.numOfDislikes] = calculateMovieLikes(
+        this.$props.movieStatus
+      );
+    },
   },
   methods: {
     async toggleLike(like) {
