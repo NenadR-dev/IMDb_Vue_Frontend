@@ -13,8 +13,21 @@
         @input="fetchNextPage"
       ></b-pagination>
     </b-row>
-    <search :searchMovie="searchMovie" />
-
+    <b-form-checkbox
+      id="checkbox-1"
+      v-model="elastic"
+      name="checkbox-1"
+      :value="true"
+      :unchecked-value="false"
+    >
+      Toggle Elastic Search
+    </b-form-checkbox>
+    <div v-if="!elastic">
+      <search :searchMovie="searchMovie" />
+    </div>
+    <div v-else>
+      <elastic-search :searchMovie="searchMovie" />
+    </div>
     <popular-movies />
     <b-row class="center mb-3">
       <b-form-select @change="filterMovies" v-model="filter" :options="genres" size="md">
@@ -66,12 +79,14 @@
 import MovieService, { genres } from "../services/MovieService.js";
 import LikeDislike from "../components/LikeDislike.vue";
 import Search from "../components/Search.vue";
+import ElasticSearch from "../components/ElasticSearch.vue";
 import PopularMovies from "../components/PopularMovies.vue";
 export default {
   components: {
     LikeDislike,
     Search,
     PopularMovies,
+    ElasticSearch,
   },
   data() {
     return {
@@ -81,6 +96,7 @@ export default {
       filter: null,
       genres: genres,
       watched: [],
+      elastic: false,
     };
   },
   async created() {
