@@ -75,6 +75,9 @@ class MovieService {
     OMDBMovieData = async(title) => {
         return await HttpClient.OMDBget(title);
     }
+    elasticSearch = async(searchBy) => {
+        return await HttpClient.post('elasticSearch',searchBy);
+    }
 }
 
 export default new MovieService()
